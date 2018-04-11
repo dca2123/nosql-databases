@@ -15,14 +15,7 @@ def article_vote(redis, user, article):
             redis.hincrby(name=article, key='votes', amount=1)
 
 def article_switch_vote(redis, user, from_article, to_article):
-    # HOMEWORK 2 Part I
-    
-    #cutoff = datetime.datetime.now() - datetime.timedelta(seconds=ONE_WEEK_IN_SECONDS)
-
-    #f_a_cut = datetime.datetime.fromtimestamp(redis.zscore('time:',from_article)) < cutoff
-    
-    #t_a_cut = datetime.datetime.fromtimestamp(redis.zscore('time:',from_article)) < cutoff
-    #if (not f_a_cut) and (not t_a_cut):
+    # HOMEWORK 2 Part I 
         
     f_a_id = from_article.split(':')[-1]
     t_a_id = to_article.split(':')[-1]
@@ -48,7 +41,5 @@ article_switch_vote(redis, "user:2", "article:8", "article:1")
 # Which article's score is between 10 and 20?
 # PRINT THE ARTICLE'S LINK TO STDOUT:
 # HOMEWORK 2 Part II
-article = redis.zrangebyscore(name='score:',10,20)
-print redis.hget(name=article,key='link:')
-print redis.zscore('score:','article:8')
-print(article)
+article = redis.zrangebyscore(name='score:',min=10,max=20)[0]
+print redis.hget(name=article,key='link')
