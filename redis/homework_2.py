@@ -16,7 +16,24 @@ def article_vote(redis, user, article):
 
 def article_switch_vote(redis, user, from_article, to_article):
     # HOMEWORK 2 Part I
-    pass
+    
+    f_a_cut = datetime.datetime.fromtimestamp(redis.zscore('time:',from_article)) < cutoff
+    
+    t_a_cut = datetime.datetime.fromtimestamp(redis.zscore('time:',from_article)) < cutoff
+    if (not f_a_cut) and (not t_a_cut):
+        
+        f_a_id = from_article.split(':')[-1]
+        t_a_id = to_article.split(':')[-1]
+        
+        if redis.srem('voted:' + f_a_id, user) and redis.sadd('voted:' + f_a_id,user):
+            
+            redis.zincrby(name='score:',value=from_article,amount= -VOTE_SCORE)
+            redis.hincrby(name=from_article,key='votes:',amount= -1)
+            
+            redis.zincrby(name='score:',value=to_article,amount=VOTE_SCORE)
+            redis.hincrby(name=to_article,key='votes:',amount=1 
+
+
 
 redis = redis.StrictRedis(host='localhost', port=6379, db=0)
 # user:3 up votes article:1
