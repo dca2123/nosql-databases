@@ -54,3 +54,13 @@ cursor1 = coll.aggregate(
 )
 
 print cursor1
+
+#part E
+persons = [{"name":"David","year":2016,"food":"bacon"},{"name":"Gabi","year":1990,"food":"baby corn"}]
+
+result = db.people.insert_many(persons)
+print result
+'''
+result1 = db.people.aggregate([
+    {"$lookup":{"from":"movies","localField":"year","foreignField":"year","as":"year"}}]}
+print result1'''
