@@ -1,0 +1,96 @@
+//Star Wars, graph style
+
+//make some nodes
+CREATE (a:Human { name: 'Luke'});
+CREATE (a:Human { name: 'Leia'});
+CREATE (a:Human { name: 'Anakin'});
+CREATE (a:Human { name: 'Obi-Wan'});
+CREATE (a:Human { name: 'Han'});
+CREATE (a:Wookie { name: 'Chewbacca'});
+CREATE (a:Alien { name: 'Darth_Maul'});
+CREATE (a:Droid { name: 'C-3PO'});
+
+//start some relationships
+MATCH (a:Human),(b:Human)
+WHERE a.name = 'Luke' AND b.name = 'Leia'
+CREATE (a)-[r:RELTYPE { family: 'twin' }]->(b)
+RETURN type(r), r.family;
+
+MATCH (a:Human),(b:Human)
+WHERE a.name = 'Leia' AND b.name = 'Luke'
+CREATE (a)-[r:RELTYPE { family: 'twin' }]->(b)
+RETURN type(r), r.family;
+
+MATCH (a:Human),(b:Human)
+WHERE a.name = 'Anakin' AND b.name = 'Leia'
+CREATE (a)-[r:RELTYPE { family: 'father' }]->(b)
+RETURN type(r), r.famliy;
+
+MATCH (a:Human),(b:Human)
+WHERE a.name = 'Anakin' AND b.name = 'Luke'
+CREATE (a)-[r:RELTYPE { family: 'father' }]->(b)
+RETURN type(r), r.famliy;
+
+MATCH (a:Human),(b:Human)
+WHERE a.name = 'Luke' AND b.name = 'Anakin'
+CREATE (a)-[r:RELTYPE { family: 'child' }]->(b)
+RETURN type(r), r.familye;
+
+MATCH (a:Human),(b:Human)
+WHERE a.name = 'Leia' AND b.name = 'Anakin'
+CREATE (a)-[r:RELTYPE { family: 'child' }]->(b)
+RETURN type(r), r.family;
+
+MATCH (a:Human),(b:Human)
+WHERE a.name = 'Luke' AND b.name = 'Obi-Wan'
+CREATE (a)-[r:RELTYPE]->(b)
+RETURN type(r), r.name;
+
+MATCH (a:Alien),(b:Human)
+WHERE a.name = 'Darth_Maul' AND b.name = 'Obi-Wan'
+CREATE (a)-[r:RELTYPE]->(b)
+RETURN type(r), r.name;
+
+MATCH (a:Human),(b:Human)
+WHERE a.name = 'Obi-Wan' AND b.name = 'Luke'
+CREATE (a)-[r:RELTYPE]->(b)
+RETURN type(r), r.name;
+
+MATCH (a:Human),(b:Alien)
+WHERE a.name = 'Obi-Wan' AND b.name = 'Darth_Maul'
+CREATE (a)-[r:RELTYPE]->(b)
+RETURN type(r), r.name;
+
+MATCH (a:Droid),(b:Human)
+WHERE a.name = 'C-3PO' AND b.name = 'Anakin'
+CREATE (a)-[r:RELTYPE]->(b)
+RETURN type(r), r.name;
+
+MATCH (a:Human),(b:Droid)
+WHERE a.name = 'Anakin' AND b.name = 'C-3PO'
+CREATE (a)-[r:RELTYPE]->(b)
+RETURN type(r), r.name;
+
+MATCH (a:Human),(b:Wookie)
+WHERE a.name = 'Han' AND b.name = 'Chewbacca'
+CREATE (a)-[r:RELTYPE]->(b)
+RETURN type(r), r.name;
+
+MATCH (a:Wookie),(b:Human)
+WHERE a.name = 'Chewbacca' AND b.name = 'Han'
+CREATE (a)-[r:RELTYPE]->(b)
+RETURN type(r), r.name;
+
+MATCH (a:Human),(b:Human)
+WHERE a.name = 'Leia' AND b.name = 'Han'
+CREATE (a)-[r:RELTYPE]->(b)
+RETURN type(r), r.name;
+
+MATCH (a:Human),(b:Human)
+WHERE a.name = 'Han' AND b.name = 'Leia'
+CREATE (a)-[r:RELTYPE]->(b)
+RETURN type(r), r.name;
+
+//Get some sub-graphs
+MATCH (a:Human)-[r:RELTYPE]->(b:Human) WHERE a.name = "Luke" RETURN b.name, type(r);
+MATCH (a:Human)-[r:RELTYPE]->(b:Human) WHERE a.name = "Leia" RETURN b.name, type(r);
