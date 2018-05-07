@@ -10,7 +10,9 @@
 #Also, I use a transaction when a user uploads a photo, 
 #to ensure that all the two relationships that come with the photo exist with the photo. 
 
-from py2neo import Graph
+from py2neo import authenticate, Graph
+
+authenticate("localhost:7474/db/data/","neo4j","test")
 
 graph = Graph()
 
@@ -40,7 +42,7 @@ tx.commit
 tx = graph.cypher.begin()
 statement = "MATCH (a {name:{A}}), (b {name:{B}}) CREATE (a)-[:FOLLOWS]->(b)"
 
-user_rels = [("Lebron", "Joel"), ("Lebron","Kawhi"), ("Joel", "Lebron"), ("Joel", "Kawhi"), ("Kawhi", "Joel")]:
+user_rels = [("Lebron", "Joel"), ("Lebron","Kawhi"), ("Joel", "Lebron"), ("Joel", "Kawhi"), ("Kawhi", "Joel")]
 
 for user_a, user_b in user_rels:
     tx.append(statement, {'A': user_a, 'B': user_b})
@@ -51,7 +53,7 @@ tx.commit
 tx = graph.cypher.begin()
 statement = "MATCH (a:User {name:{A}}), (b:Photo {title:{B}}) CREATE (a)-[:HAS]->(b)"
 
-user_to_photo = [("Lebron", "basket"), ("Lebron","ball"), ('Lebron','bannan'),('Lebron','boat'),('Lebron','tennis'),("Joel", "shoe"), ("Joel", "ham"), ('Joel','string'), ('Joel','funny'), ('Joel','bone'),("Kawhi", "t"),('Kawhi','shirt'),('Kawhi','hard'),('Kawhi','wood'),('Kawhi','dog')]:
+user_to_photo = [("Lebron", "basket"), ("Lebron","ball"), ('Lebron','bannan'),('Lebron','boat'),('Lebron','tennis'),("Joel", "shoe"), ("Joel", "ham"), ('Joel','string'), ('Joel','funny'), ('Joel','bone'),("Kawhi", "t"),('Kawhi','shirt'),('Kawhi','hard'),('Kawhi','wood'),('Kawhi','dog')]
 
 for user, photo in user_to_photo:
     tx.append(statement, {'A': user, 'B': photo})
@@ -62,7 +64,7 @@ tx.commit
 tx = graph.cypher.begin()
 statement = "MATCH (a:Photo {title:{A}}), (b:User {name:{B}}) CREATE (a)-[:IS_HAD]->(b)"
 
-photo_to_user = [("basket","Lebron"), ("ball","Lebron"), ('banana','Lebron'),('boat','Lebron'),('tennis','Lebron'),("shoe","Joel"), ("ham","Joel"), ('string','Joel'), ('funny','Joel'), ('bone','Joel'),("t","Kawhi"),('shirt','Kawhi'),('hard','Kawhi'),('wood','Kawhi'),('dog','Kawhi')]:
+photo_to_user = [("basket","Lebron"), ("ball","Lebron"), ('banana','Lebron'),('boat','Lebron'),('tennis','Lebron'),("shoe","Joel"), ("ham","Joel"), ('string','Joel'), ('funny','Joel'), ('bone','Joel'),("t","Kawhi"),('shirt','Kawhi'),('hard','Kawhi'),('wood','Kawhi'),('dog','Kawhi')]
 
 for photo, user in photo_to_user:
     tx.append(statement, {'A': photo, 'B': user})
@@ -78,7 +80,7 @@ graph.cyber.execute("CREATE (u:User {name:{T}}",{'T':'Tim'})
 tx = graph.cypher.begin()
 statement = "MATCH (a {name:{A}}), (b {name:{B}}) CREATE (a)-[:FOLLOWS]->(b)"
 
-user_rels = [("Tim", "Lebron"), ("Tim", "Kawhi")]:
+user_rels = [("Tim", "Lebron"), ("Tim", "Kawhi")]
 
 for user_a, user_b in user_rels:
     tx.append(statement, {'A': user_a, 'B': user_b})
