@@ -10,7 +10,9 @@
 #Photo relationshps are always two way in my implmentation. 
 #Also, I use a transaction when a user uploads a photo, 
 #to ensure that all the two relationships that come with the photo exist with the photo. 
-
+#
+#
+#Note: I installed pip3 so that i could run python 3
 from py2neo import authenticate, Graph
 
 authenticate("localhost:7474/db/data/","neo4j","test")
