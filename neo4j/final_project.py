@@ -2,8 +2,9 @@
 #apps like that focus on relationships. Photos are displayed on feed primarily 
 #by who is followed, which is a relationship
 #
-#If someone spilled coffee on one of my servers, I would cry, 
-#beacause aside from some data in the graph computation engine, almost all my data would be lost.
+#If someone spilled coffee on one of my servers, it would be ok, because neo4j
+#provides casual clustering, which creates read repilcas, and designates several core
+#servers to be used to safegaurd the data. 
 #
 #Its not okay to lose the photos, since those are the core content of the app. 
 #Photo relationshps are always two way in my implmentation. 
@@ -73,7 +74,7 @@ tx.commit
 
 #action 1: A new user signs up for an account
 
-graph.cyber.execute("CREATE (u:User {name:{T}}",{'T':'Tim'})
+graph.cypher.execute("CREATE (u:User {name:{T}}",{'T':'Tim'})
 
 #action 2: Tim follows Kawhi and Lebron
 
